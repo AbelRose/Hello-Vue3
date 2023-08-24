@@ -29,6 +29,14 @@
 </script>
 
 <style lang="less" scoped>
+header {
+    display: flex;
+    // 左右两边
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 .r-content {
     .user {
         width: 40px;

@@ -1,11 +1,9 @@
 <template>
     <div class="common-layout">
         <el-container>
-            <el-aside width="200px">Aside</el-aside>
+            <common-aside />
             <el-container>
-                <el-header>
-                    <CommonHeader />
-                </el-header>
+                <common-header />
                 <el-main>
                     <router-view />
                 </el-main>
@@ -15,12 +13,20 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 import CommonHeader from '../components/CommonHeader.vue';
+import CommonAside from '../components/CommonAside.vue';
 
 export default defineComponent({
-    commonts: {
+    components: {
         CommonHeader,
+        CommonAside
     },
 });
 </script>
+
+<style lang="less" scoped>
+.r-container {
+    flex-wrap: wrap;
+}
+</style>
