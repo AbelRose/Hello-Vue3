@@ -8,6 +8,8 @@ import router from './router'
 import './assets/less/index.less'
 // 图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+// vuex store
+import store from './store/index.js';
 
 const app = createApp(App)
 // 完整引用 (打包的文件可能会大一些)
@@ -16,5 +18,6 @@ const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
-app.use(router)
+// 链式写法
+app.use(router).use(store)
 app.mount('#app')

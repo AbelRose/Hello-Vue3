@@ -28,20 +28,30 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue-demi';
+import { useStore } from 'vuex'
+
+export default defineComponent({
     // Vue3中 template中用到的变量都放到setUp中 并return出去
     setup() {
         // const imgSrc = require('../assets/images/user.png') 这种方式是webpack的 vite 不行
         // vite 的动态引用 原生的JS进行打包
-        const getImgSrc = (user) => {
+        let getImgSrc = (user) => {
             return new URL(`../assets/images/${user}.png`, import.meta.url).href;
-        }
+        };
+        let store = useStore()
+        // 点击按钮收缩的方法
+        let handleCollapse = () => {
+            // 调用vuex中的mutations 先要import
+            store.commit('updateIsCollapse');
+        };
         return {
             // imgSrc
-            getImgSrc
+            getImgSrc,
+            handleCollapse
         }
     }
-}
+});
 </script>
 
 <style lang="less" scoped>
@@ -64,6 +74,7 @@ header {
 
     .el-button {
         margin-right: 20px;
+        width: 35px;
     }
 }
 
