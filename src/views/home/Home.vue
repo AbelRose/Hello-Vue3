@@ -1,5 +1,5 @@
 <template>
     <div>
-        我是Home的组件
+        Home组件
     </div>
 </template>

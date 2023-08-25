@@ -1,8 +1,8 @@
 <template>
     <div class="common-layout">
-        <el-container>
+        <el-container class="lay-container">
             <common-aside />
-            <el-container>
+            <el-container class="r-container">
                 <common-header />
                 <el-main>
                     <router-view />
