@@ -32,20 +32,6 @@ export default {
     setup() {
         const list = [
             {
-                path: '/',
-                name: 'home',
-                label: '首页',
-                icon: 'house',
-                url: 'Home/Home'
-            },
-            {
-                path: '/mall',
-                name: 'mall',
-                label: '商品管理',
-                icon: 'video-play',
-                url: 'MallManage/MallManage'
-            },
-            {
                 path: '/user',
                 name: 'user',
                 label: '用户管理',
@@ -73,6 +59,7 @@ export default {
                     }
                 ]
             }
+
         ];
         const noChildren = () => {
             return list.filter((item) => !item.children)
@@ -92,6 +79,10 @@ export default {
 .icons {
     width: 18px;
     height: 18px;
+}
+
+.el-menu {
+    border-right: none;
 }
 </style>
 
