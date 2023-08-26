@@ -1,5 +1,5 @@
 <template>
-    <el-aside :width="$store.state.isCollapse ? '180px' : '64px'">
+    <el-aside :width="$store.state.isCollapse ? '180px' : '60px'">
         <el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff"
             :collapse="!$store.state.isCollapse" :collapse-transition="false">
             <!-- :collapse="!$store" 注意没有this  :collapse-transition false 是去掉动画 -->
@@ -10,13 +10,13 @@
                 <component class="icons" :is="item.icon"></component>
                 <span>{{ item.label }}</span>
             </el-menu-item>
-            <el-sub-menu :index="item.label" v-for=" item  in  hasChildren() " :key="item.path">
+            <el-sub-menu :index="item.path" v-for=" item  in  hasChildren() " :key="item.path">
                 <template #title>
                     <!-- TODO 为什么这个地方icon要写死 不能动态获取 否则的话折叠的时候不显示 -->
-                    <el-icon>
+                    <!-- <el-icon>
                         <location />
-                    </el-icon>
-                    <!-- <component class=" icons" :is="item.icon"></component> -->
+                    </el-icon> -->
+                    <component class="icons" :is="item.icon"></component>
                     <span>{{ item.label }}</span>
                 </template>
                 <el-menu-item-group>
@@ -48,8 +48,8 @@ export default {
             },
             {
                 path: '/other',
-                label: '其他',
                 name: 'other',
+                label: '其他',
                 icon: 'location',
                 children: [
                     {
