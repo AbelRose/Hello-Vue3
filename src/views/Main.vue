@@ -32,6 +32,10 @@ export default defineComponent({
 }
 
 .common-layout {
+    .lay-container {
+        flex-wrap: nowrap;
+    }
+
     height: 100%;
 
     // 子层级

@@ -23,7 +23,17 @@
             </el-card>
         </el-col>
         <!-- 右侧 -->
-        <el-col :span="16" style="margin-top: 20px"></el-col>
+        <el-col :span="16" style="margin-top: 20px" class="right-num">
+            <div class="num">
+                <el-card :body-style="{ display: 'flex', padding: 0 }" v-for="item in countData" :key="item.name">
+                    <component class="icons" :is="item.icon" :style="{ background: item.color }"></component>
+                    <div class="detail">
+                        <p class="num">${{ item.value }}</p>
+                        <p class="txt">{{ item.name }}</p>
+                    </div>
+                </el-card>
+            </div>
+        </el-col>
     </el-row>
 </template>
 
@@ -36,6 +46,7 @@ export default defineComponent({
     setup() {
         // 需要用 ref 初始一个数组
         const tableData = ref([]);
+        const countData = ref([]);
         const tableLabel = {
             name: '课程',
             todayBuy: '今日购买',
@@ -44,7 +55,7 @@ export default defineComponent({
         }
         // proxy 类似于Vue2中的 this
         const { proxy } = getCurrentInstance();
-        // async 异步
+        // Home 组件 左侧表格数据获取 async 异步
         const getTableList = async () => {
             // fastmock 线上 Mock数据
             // await axios.get("https://www.fastmock.site/mock/ab47677c244ebf7fff6a06ff4fefc5f0/api/home/getData").then((res) => {
@@ -52,16 +63,20 @@ export default defineComponent({
             //         tableData.value = res.data.data;
             //     }
             // });
-            let res = await proxy.$api.getTableData();
-            console.log(res)
-            tableData.value = res
+            tableData.value = await proxy.$api.getTableData();
+        }
+        // Home 组件 Count 数据获取
+        const getCountData = async () => {
+            countData.value = await proxy.$api.getCountData();
         }
         onMounted(() => {
             getTableList();
+            getCountData();
         })
         return {
             tableData,
-            tableLabel
+            tableLabel,
+            countData // 返回之后才能在页面中使用
         }
     }
 })
@@ -94,6 +109,58 @@ export default defineComponent({
                 color: #666;
                 margin-left: 60px;
             }
+        }
+    }
+
+    // .right-num {
+
+    // }
+    .num {
+        display: flex;
+        flex-wrap: wrap;
+
+        .el-card {
+            width: 30%;
+            margin-bottom: 20px;
+            margin-left: 20px;
+        }
+
+        .icons {
+            width: 80px;
+            height: 80px;
+            font-size: 30px;
+            text-align: center;
+            line-height: 80px;
+            color: #fff;
+        }
+
+        .detail {
+            margin-left: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .num {
+                font-size: 18px;
+                font-style: italic;
+                margin-bottom: 12px;
+            }
+
+            .txt {
+                font-size: 14px;
+                text-align: center;
+                color: #999;
+            }
+        }
+    }
+
+    .graph {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+
+        .el-card {
+            width: 48%;
         }
     }
 }

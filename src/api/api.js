@@ -13,5 +13,13 @@ export default {
             // 单个接口的Mock控制
             mock: true
         })
+    },
+    // Home 组件 Count 数据获取
+    getCountData() {
+        return request({
+            url: '/home/getCountData',
+            method: 'get',
+            mock: true
+        }) 
     }
 }
