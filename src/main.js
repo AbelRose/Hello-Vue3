@@ -12,6 +12,8 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import store from './store/index.js';
 // Mock Data
 import './api/mock.js'
+// api
+import api from './api/api';
 
 const app = createApp(App)
 // 完整引用 (打包的文件可能会大一些)
@@ -23,3 +25,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 // 链式写法
 app.use(router).use(store)
 app.mount('#app')
+// 全局挂载API
+app.config.globalProperties.$api = api

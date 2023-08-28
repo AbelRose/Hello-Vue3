@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue';
 // 导入 axios 异步调用
 import axios from 'axios';
 
@@ -42,14 +42,19 @@ export default defineComponent({
             monthBuy: '本月购买',
             totalBuy: '总购买',
         }
+        // proxy 类似于Vue2中的 this
+        const { proxy } = getCurrentInstance();
         // async 异步
         const getTableList = async () => {
             // fastmock 线上 Mock数据
-            await axios.get("https://www.fastmock.site/mock/ab47677c244ebf7fff6a06ff4fefc5f0/api/home/getData").then((res) => {
-                if (res.data.code === 200) {
-                    tableData.value = res.data.data;
-                }
-            });
+            // await axios.get("https://www.fastmock.site/mock/ab47677c244ebf7fff6a06ff4fefc5f0/api/home/getData").then((res) => {
+            //     if (res.data.code === 200) {
+            //         tableData.value = res.data.data;
+            //     }
+            // });
+            let res = await proxy.$api.getTableData();
+            console.log(res)
+            tableData.value = res
         }
         onMounted(() => {
             getTableList();
