@@ -10,6 +10,8 @@ import './assets/less/index.less'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // vuex store
 import store from './store/index.js';
+// Mock Data
+import './api/mock.js'
 
 const app = createApp(App)
 // 完整引用 (打包的文件可能会大一些)

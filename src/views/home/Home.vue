@@ -28,54 +28,32 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+// 导入 axios 异步调用
+import axios from 'axios';
 
 export default defineComponent({
     setup() {
-        const tableData = [
-            {
-                name: 'oppo',
-                todayBuy: 500,
-                monthBuy: 3500,
-                totalBuy: 22000
-            },
-            {
-                name: 'vivo',
-                todayBuy: 300,
-                monthBuy: 2200,
-                totalBuy: 24000
-            },
-            {
-                name: '苹果',
-                todayBuy: 800,
-                monthBuy: 4500,
-                totalBuy: 65000
-            },
-            {
-                name: '小米',
-                todayBuy: 1200,
-                monthBuy: 6500,
-                totalBuy: 45000
-            },
-            {
-                name: '三星',
-                todayBuy: 300,
-                monthBuy: 2000,
-                totalBuy: 34000
-            },
-            {
-                name: '魅族',
-                todayBuy: 350,
-                monthBuy: 3000,
-                totalBuy: 22000
-            }
-        ];
+        // 需要用 ref 初始一个数组
+        const tableData = ref([]);
         const tableLabel = {
             name: '课程',
             todayBuy: '今日购买',
             monthBuy: '本月购买',
             totalBuy: '总购买',
         }
+        // async 异步
+        const getTableList = async () => {
+            // fastmock 线上 Mock数据
+            await axios.get("https://www.fastmock.site/mock/ab47677c244ebf7fff6a06ff4fefc5f0/api/home/getData").then((res) => {
+                if (res.data.code === 200) {
+                    tableData.value = res.data.data;
+                }
+            });
+        }
+        onMounted(() => {
+            getTableList();
+        })
         return {
             tableData,
             tableLabel
