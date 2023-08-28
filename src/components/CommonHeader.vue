@@ -85,4 +85,8 @@ header {
         border-radius: 50%;
     }
 }
+
+.el-dropdown-link:focus {
+    outline: none;
+}
 </style>
