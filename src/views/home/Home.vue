@@ -6,7 +6,7 @@
                 <div class="user">
                     <img src="../../assets/images/user.png" alt="">
                     <div class="user-info">
-                        <p class="name">SHERLOCK</p>
+                        <p class="name" style="margin-bottom: 15px;">SHERLOCK</p>
                         <p class="role">超管</p>
                     </div>
                 </div>
