@@ -21,5 +21,13 @@ export default {
             method: 'get',
             mock: true
         }) 
+    },
+    // echarts 获取数据
+    getChartData() {
+        return request({
+            url: '/home/getChartData',
+            method: 'get',
+            mock: true
+        })
     }
 }
