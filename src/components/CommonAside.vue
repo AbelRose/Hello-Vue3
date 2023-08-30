@@ -1,5 +1,5 @@
 <template>
-    <el-aside :width="$store.state.isCollapse ? '180px' : '60px'">
+    <el-aside :width="$store.state.isCollapse ? '160px' : '60px'">
         <el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff"
             :collapse="!$store.state.isCollapse" :collapse-transition="false">
             <!-- :collapse="!$store" 注意没有this  :collapse-transition false 是去掉动画 -->
