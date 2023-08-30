@@ -8,7 +8,11 @@
                     <Menu />
                 </el-icon>
             </el-button>
-            <h3>首页</h3>
+            <el-breadcrumb separator="/" class="bread">
+                <!-- 首页一定存在 所以直接写死 -->
+                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="current.path" v-if="current">{{ current.label }}</el-breadcrumb-item>
+            </el-breadcrumb>
         </div>
         <div class="r-content">
             <el-dropdown>
@@ -28,7 +32,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue-demi';
+import { computed, defineComponent } from 'vue-demi';
 import { useStore } from 'vuex'
 
 export default defineComponent({
@@ -45,10 +49,16 @@ export default defineComponent({
             // 调用vuex中的mutations 先要import
             store.commit('updateIsCollapse');
         };
+        // 计算属性
+        const current = computed(() => {
+            // currentMenu 是 store index 中的 currentMenu
+            return store.state.currentMenu;
+        })
         return {
             // imgSrc
             getImgSrc,
-            handleCollapse
+            handleCollapse,
+            current
         }
     }
 });
@@ -88,5 +98,10 @@ header {
 
 .el-dropdown-link:focus {
     outline: none;
+}
+
+:deep(.bread) span {
+    color: #fff !important;
+    cursor: pointer !important; // 小手
 }
 </style>

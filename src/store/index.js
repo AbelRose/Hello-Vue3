@@ -2,12 +2,18 @@
 import { createStore } from 'vuex'
 export default createStore({
     state: {
-        isCollapse: true
+        isCollapse: true,
+        currentMenu: null
     },
     // 通过 mutations 改变 state 的值
     mutations: {
         updateIsCollapse(state, payload) {
             state.isCollapse = !state.isCollapse;
+        },
+        // 面包屑 
+        selectMenu(state, val) {
+            // 判断
+            val.name === 'home' ? (state.currentMenu = null) : (state.currentMenu = val)
         }
     }
 })

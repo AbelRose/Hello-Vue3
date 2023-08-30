@@ -36,7 +36,8 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default {
     // Vue3和Vue2的区别 setUp之后 return出去
@@ -81,10 +82,13 @@ export default {
             return list.filter((item) => item.children)
         };
         const router = useRouter();
+        const store = useStore();
         const clickMenu = (item) => {
             router.push({
                 name: item.name,
-            })
+            });
+            // vuex 进行管理 点击之后会到store中的index.js中的selectMenu 从而改变currentMenu的值
+            store.commit('selectMenu', item)
         };
         // 点击跳转到首页
         const goHome = () => {
