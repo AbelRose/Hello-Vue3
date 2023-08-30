@@ -36,6 +36,14 @@
             <el-card style="height: 280px;">
                 <div ref="echart" style="height: 280px;"></div>
             </el-card>
+            <div class="graph">
+                <el-card style="height: 260px;">
+                    <div ref="userechart" style="height: 240px;"></div>
+                </el-card>
+                <el-card style="height: 260px;">
+                    <div ref="videoechart" style="height: 240px;"></div>
+                </el-card>
+            </div>
         </el-col>
     </el-row>
 </template>
@@ -151,7 +159,7 @@ export default defineComponent({
             let result = await proxy.$api.getChartData();
             let orderRes = result.orderData;
             let userRes = result.userData;
-            let videoData = result.videoData;
+            let videoRes = result.videoData;
 
             orderData.xData = orderRes.date
             const keyArray = Object.keys(orderRes.data[0])
@@ -166,9 +174,37 @@ export default defineComponent({
             orderData.series = series;
             xOPtions.xAxis.data = orderData.xData;
             xOPtions.series = orderData.series;
-            // 进行渲染
+            // userData进行渲染
             let hEcharts = echarts.init(proxy.$refs['echart']);
             hEcharts.setOption(xOPtions)
+            // 柱状图进行渲染
+            userData.xData = userRes.map((item) => item.date);
+            userData.series = [
+                {
+                    name: '新增用户',
+                    data: userRes.map((item) => item.new),
+                    type: "bar",
+                },
+                {
+                    name: '活跃用户',
+                    data: userRes.map((item) => item.active),
+                    type: "bar",
+                },
+            ];
+            xOPtions.xAxis.data = userData.xData;
+            xOPtions.series = userData.series;
+            // userData进行渲染
+            let uEcharts = echarts.init(proxy.$refs['userechart']);
+            uEcharts.setOption(xOPtions);
+            videoData.series = [
+                {
+                    data: videoRes,
+                    type: 'pie'
+                }
+            ];
+            pieOptions.series = videoData.series
+            let vEcharts = echarts.init(proxy.$refs['videoechart']);
+            vEcharts.setOption(pieOptions);
         }
         return {
             tableData,
