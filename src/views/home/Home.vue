@@ -209,43 +209,44 @@ export default defineComponent({
         }
     }
 
-    // .right-num {
+    .right-num {
 
-    // }
-    .num {
-        display: flex;
-        flex-wrap: wrap;
-
-        .el-card {
-            width: 30%;
-            margin-bottom: 20px;
-        }
-
-        .icons {
-            width: 80px;
-            height: 80px;
-            font-size: 30px;
-            text-align: center;
-            line-height: 80px;
-            color: #fff;
-        }
-
-        .detail {
-            margin-left: 15px;
+        .num {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            flex-wrap: wrap;
+            justify-content: space-between;
 
-            .num {
-                font-size: 18px;
-                font-style: italic;
-                margin-bottom: 12px;
+            .el-card {
+                width: 30%;
+                margin-bottom: 20px;
             }
 
-            .txt {
-                font-size: 14px;
+            .icons {
+                width: 80px;
+                height: 80px;
+                font-size: 30px;
                 text-align: center;
-                color: #999;
+                line-height: 80px;
+                color: #fff;
+            }
+
+            .detail {
+                margin-left: 15px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                .num {
+                    font-size: 18px;
+                    font-style: italic;
+                    margin-bottom: 12px;
+                }
+
+                .txt {
+                    font-size: 14px;
+                    text-align: center;
+                    color: #999;
+                }
             }
         }
     }
