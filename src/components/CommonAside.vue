@@ -3,15 +3,11 @@
         <el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff"
             :collapse="!$store.state.isCollapse" :collapse-transition="false">
             <!-- :collapse="!$store" 注意没有this  :collapse-transition false 是去掉动画 -->
-            <h3 @click="goHome" v-show="$store.state.isCollapse">
-                <span class="hover-hand" @mouseover="showHand = true" @mouseout="showHand = false">
-                    Hello Vue3
-                </span>
+            <h3 class="show-pointer" @click="goHome" v-show="$store.state.isCollapse">
+                Hello Vue3
             </h3>
-            <h3 @click="goHome" v-show="!$store.state.isCollapse">
-                <span class="hover-hand" @mouseover="showHand = true" @mouseout="showHand = false">
-                    Vue3
-                </span>
+            <h3 class="show-pointer" @click="goHome" v-show="!$store.state.isCollapse">
+                Vue3
             </h3>
             <el-menu-item :index="item.path" v-for=" item  in  noChildren() " :key="item.path" @click="clickMenu(item)">
                 <!-- 动态 icon 为什么可以这样写 因为在main.js里面已经把需要的东西注册进来了 可以动态使用-->
@@ -141,12 +137,8 @@ export default {
         display: none;
     }
 
-    .hover-hand {
-        cursor: pointer;
-    }
-
-    .hover-hand:hover {
-        cursor: pointer;
+    .show-pointer {
+        cursor: pointer; // pointer图标
     }
 }
 </style>

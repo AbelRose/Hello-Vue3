@@ -3,7 +3,15 @@ import { createStore } from 'vuex'
 export default createStore({
     state: {
         isCollapse: true,
-        currentMenu: null
+        currentMenu: null,
+        tabsList: [
+            {
+                path: '/',
+                name: 'home',
+                label: '首页',
+                icon: 'home'
+            }
+        ]
     },
     // 通过 mutations 改变 state 的值
     mutations: {
