@@ -1,14 +1,14 @@
 <template>
     <div class="tags">
         <el-tag :key="tag.name" v-for="(tag, index) in tags" :closable="tag.name !== 'home'" :disable-transitions="false"
-            :effect="$route.name === tag.name ? 'dark' : 'plain'" @click="changeMenu(tag)">
+            :effect="$route.name === tag.name ? 'dark' : 'plain'" @click="changeMenu(tag)" @close="handleClose(tag, index)">
             {{ tag.label }}
         </el-tag>
     </div>
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
@@ -16,11 +16,31 @@ export default {
         const store = useStore();
         const tags = store.state.tabsList;
         const router = useRouter();
+        const route = useRoute();
         const changeMenu = (item) => {
             router.push({ name: item.name })
         }
+        const handleClose = (tag, index) => {
+            let length = tags.length - 1;
+            // 处理vuex中的tabsList
+            store.commit('closeTab', tag)
+            // 做第一个判断
+            if (tag.name !== route.name) {
+                return;
+            }
+            // 跳到前面一个
+            if (index === length) {
+                router.push({
+                    name: tags[index - 1].name
+                })
+            } else {
+                router.push({
+                    name: tags[index].name,
+                });
+            }
+        }
         return {
-            tags, changeMenu
+            tags, changeMenu, handleClose
         };
     },
 };

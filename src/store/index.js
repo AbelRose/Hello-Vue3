@@ -29,6 +29,10 @@ export default createStore({
                 let result = state.tabsList.findIndex(item => item.name === val.name)
                 result == -1 ? state.tabsList.push(val) : ''
             }
+        },
+        closeTab(state, val) {
+            let res = state.tabsList.findIndex(item => item.name === val.name)
+            state.tabsList.splice(res, 1)
         }
     }
 })
