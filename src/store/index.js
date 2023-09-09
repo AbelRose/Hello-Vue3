@@ -21,7 +21,14 @@ export default createStore({
         // 面包屑 
         selectMenu(state, val) {
             // 判断
-            val.name === 'home' ? (state.currentMenu = null) : (state.currentMenu = val)
+            // val.name === 'home' ? (state.currentMenu = null) : (state.currentMenu = val)
+            if (val.name == 'home') {
+                state.currentMenu = null;
+            } else {
+                state.currentMenu = val
+                let result = state.tabsList.findIndex(item => item.name === val.name)
+                result == -1 ? state.tabsList.push(val) : ''
+            }
         }
     }
 })

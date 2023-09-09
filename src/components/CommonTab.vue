@@ -1,7 +1,7 @@
 <template>
     <div class="tags">
         <el-tag :key="tag.name" v-for="(tag, index) in tags" :closable="tag.name !== 'home'" :disable-transitions="false"
-            :effect="$route.name === tag.name ? 'dark' : 'plain'">
+            :effect="$route.name === tag.name ? 'dark' : 'plain'" @click="changeMenu(tag)">
             {{ tag.label }}
         </el-tag>
     </div>
@@ -15,9 +15,12 @@ export default {
     setup() {
         const store = useStore();
         const tags = store.state.tabsList;
-
+        const router = useRouter();
+        const changeMenu = (item) => {
+            router.push({ name: item.name })
+        }
         return {
-            tags,
+            tags, changeMenu
         };
     },
 };
