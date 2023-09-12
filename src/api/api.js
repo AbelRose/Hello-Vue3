@@ -29,5 +29,13 @@ export default {
             method: 'get',
             mock: true
         })
+    },
+    getUserData(params) {
+        return request({
+            url: '/user/getUser/',
+            method: 'get',
+            mock: false, // 不走线上的API
+            data: params
+        })
     }
 }
