@@ -1,6 +1,6 @@
 <template>
     <div class="user-header">
-        <el-button type="primary">+新增</el-button>
+        <el-button type="primary" @click="dialogVisible = true">+新增</el-button>
         <el-form :inline="true" :model="formInline">
             <el-form-item label="请输入">
                 <el-input v-model="formInline.keyword" placeholder="请输入用户名" clearable />
@@ -25,6 +25,24 @@
         <el-pagination small background layout="prev, pager, next" :total="config.total" :page-size="20"
             @current-change="changePage" class="pager mt-4" />
     </div>
+    <el-dialog v-model="dialogVisible" title="新增用户" width="30%" :before-close="handleClose">
+        <el-form :inline="true" :model="formUser">
+            <el-form-item label="姓名">
+                <el-input v-model="formUser.name" placeholder="请输入姓名" clearable />
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit">Query</el-button>
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">
+                    确定
+                </el-button>
+            </span>
+        </template>
+    </el-dialog>
 </template>
 
 <script>
@@ -85,9 +103,24 @@ export default defineComponent({
         const handleSearch = () => {
             config.name = formInline.keyword
             getUserData(config)
-        }
+        };
+        // 控制模态框的显示和隐藏
+        const dialogVisible = ref(false)
+        const handleClose = (done) => {
+            ElMessageBox.confirm('确定关闭吗?')
+                .then(() => {
+                    done()
+                })
+                .catch(() => {
+                    // catch error
+                })
+        };
+        // 添加用户的form数据
+        const formUser = reactive({
+            name: "" // 添加用户的用户名
+        })
         return {
-            list, tableLabel, config, changePage, formInline, handleSearch
+            list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser
         }
     },
 })
