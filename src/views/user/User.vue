@@ -1,4 +1,15 @@
 <template>
+    <div class="user-header">
+        <el-button type="primary">+新增</el-button>
+        <el-form :inline="true" :model="formInline">
+            <el-form-item label="请输入">
+                <el-input v-model="formInline.keyword" placeholder="请输入用户名" clearable />
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="handleSearch">搜索</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
     <div class="table">
         <el-table :data="list" style="width: 100%" height="500px">
             <el-table-column v-for="item in tableLabel" :key="item.prop" :label="item.label" :prop="item.prop"
@@ -53,7 +64,8 @@ export default defineComponent({
         });
         const config = reactive({
             total: 0,
-            page: 1
+            page: 1,
+            name: ''
         });
         const getUserData = async (config) => {
             let res = await proxy.$api.getUserData(config);
@@ -67,8 +79,15 @@ export default defineComponent({
             config.page = page
             getUserData(config)
         };
+        const formInline = reactive({
+            keyword: ""
+        });
+        const handleSearch = () => {
+            config.name = formInline.keyword
+            getUserData(config)
+        }
         return {
-            list, tableLabel, config, changePage
+            list, tableLabel, config, changePage, formInline, handleSearch
         }
     },
 })
@@ -84,5 +103,10 @@ export default defineComponent({
         right: 0;
         bottom: -20px;
     }
+}
+
+.user-header {
+    display: flex;
+    justify-content: space-between;
 }
 </style>
