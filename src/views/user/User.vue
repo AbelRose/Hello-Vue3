@@ -1,6 +1,6 @@
 <template>
     <div class="table">
-        <el-table :data="list" style="width: 100%" height="600px">
+        <el-table :data="list" style="width: 100%" height="500px">
             <el-table-column v-for="item in tableLabel" :key="item.prop" :label="item.label" :prop="item.prop"
                 :width="item.width ? item.width : 125" />
             <el-table-column fixed="right" label="操作" min-width="180">
@@ -10,10 +10,9 @@
                 </template>
             </el-table-column>
         </el-table>
-        <br />
-        <!-- 分页 现在这个分页是20条 -->
-        <el-pagination small background layout="prev, pager, next" :total="config.total" @current-change="changePage"
-            class="pager mt-4" />
+        <!-- 分页 现在这个分页是每页20条 -->
+        <el-pagination small background layout="prev, pager, next" :total="config.total" :page-size="20"
+            @current-change="changePage" class="pager mt-4" />
     </div>
 </template>
 
@@ -74,3 +73,16 @@ export default defineComponent({
     },
 })
 </script>
+
+<style lang="less" scoped>
+.table {
+    position: relative;
+    height: 520px;
+
+    .pager {
+        position: absolute;
+        right: 0;
+        bottom: -20px;
+    }
+}
+</style>
