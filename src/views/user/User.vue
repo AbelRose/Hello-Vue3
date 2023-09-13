@@ -11,7 +11,7 @@
             </el-table-column>
         </el-table>
         <br />
-        <!-- 分页 -->
+        <!-- 分页 现在这个分页是20条 -->
         <el-pagination small background layout="prev, pager, next" :total="config.total" @current-change="changePage"
             class="pager mt-4" />
     </div>
