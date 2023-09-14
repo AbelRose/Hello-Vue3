@@ -25,23 +25,57 @@
         <el-pagination small background layout="prev, pager, next" :total="config.total" :page-size="20"
             @current-change="changePage" class="pager mt-4" />
     </div>
-    <el-dialog v-model="dialogVisible" title="新增用户" width="30%" :before-close="handleClose">
+    <el-dialog v-model="dialogVisible" title="新增用户" width="35%" :before-close="handleClose">
         <el-form :inline="true" :model="formUser">
-            <el-form-item label="姓名">
-                <el-input v-model="formUser.name" placeholder="请输入姓名" clearable />
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="onSubmit">Query</el-button>
-            </el-form-item>
+            <!-- 为了显示在同一行用 el-row 和 el-col -->
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="姓名">
+                        <el-input v-model="formUser.name" placeholder="请输入姓名" clearable />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="年龄">
+                        <el-input v-model="formUser.age" placeholder="请输入年龄" clearable />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="性别">
+                        <el-select v-model="formUser.sex" placeholder="请选择">
+                            <el-option label="男" value="0" />
+                            <el-option label="女" value="1" />
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="出生日期">
+                        <el-date-picker v-model="formUser.birth" type="date" label="出生日期" placeholder="请输入出生日期"
+                            style="width: 100%" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-form-item label="地址">
+                    <el-input v-model="formUser.addr" placeholder="请输入地址" clearable />
+                </el-form-item>
+            </el-row>
+            <el-row style="justify-content: end;">
+                <el-form-item>
+                    <el-button type="primary" @click="dialogVisible = false">取消</el-button>
+                    <el-button type="primary" @click="onSubmit">确定</el-button>
+                </el-form-item>
+            </el-row>
         </el-form>
-        <template #footer>
+        <!-- <template #footer>
             <span class="dialog-footer">
                 <el-button @click="dialogVisible = false">取消</el-button>
                 <el-button type="primary" @click="dialogVisible = false">
                     确定
                 </el-button>
             </span>
-        </template>
+        </template> -->
     </el-dialog>
 </template>
 
@@ -117,7 +151,11 @@ export default defineComponent({
         };
         // 添加用户的form数据
         const formUser = reactive({
-            name: "" // 添加用户的用户名
+            name: "", // 添加用户的用户名
+            age: "", // 年龄
+            sex: "", // 性别
+            birth: "", // 生日
+            addr: "" // 地址
         })
         return {
             list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser
