@@ -32,8 +32,16 @@ export default {
     },
     getUserData(params) {
         return request({
-            url: '/user/getUser/',
+            url: '/user/getUser',
             method: 'get',
+            mock: false, // 不走线上的API
+            data: params
+        })
+    },
+    addUser(params) {
+        return request({
+            url: '/user/add',
+            method: 'post',
             mock: false, // 不走线上的API
             data: params
         })

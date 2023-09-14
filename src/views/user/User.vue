@@ -26,23 +26,23 @@
             @current-change="changePage" class="pager mt-4" />
     </div>
     <el-dialog v-model="dialogVisible" title="新增用户" width="35%" :before-close="handleClose">
-        <el-form :inline="true" :model="formUser">
+        <el-form :inline="true" :model="formUser" ref="userForm">
             <!-- 为了显示在同一行用 el-row 和 el-col -->
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="姓名">
+                    <el-form-item label="姓名" prop="name">
                         <el-input v-model="formUser.name" placeholder="请输入姓名" clearable />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="年龄">
+                    <el-form-item label="年龄" prop="age">
                         <el-input v-model="formUser.age" placeholder="请输入年龄" clearable />
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="性别">
+                    <el-form-item label="性别" prop="sex">
                         <el-select v-model="formUser.sex" placeholder="请选择">
                             <el-option label="男" value="0" />
                             <el-option label="女" value="1" />
@@ -50,14 +50,14 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="出生日期">
+                    <el-form-item label="出生日期" prop="birth">
                         <el-date-picker v-model="formUser.birth" type="date" label="出生日期" placeholder="请输入出生日期"
                             style="width: 100%" />
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
-                <el-form-item label="地址">
+                <el-form-item label="地址" prop="addr">
                     <el-input v-model="formUser.addr" placeholder="请输入地址" clearable />
                 </el-form-item>
             </el-row>
@@ -68,14 +68,6 @@
                 </el-form-item>
             </el-row>
         </el-form>
-        <!-- <template #footer>
-            <span class="dialog-footer">
-                <el-button @click="dialogVisible = false">取消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">
-                    确定
-                </el-button>
-            </span>
-        </template> -->
     </el-dialog>
 </template>
 
@@ -156,9 +148,33 @@ export default defineComponent({
             sex: "", // 性别
             birth: "", // 生日
             addr: "" // 地址
-        })
+        });
+        // 日期格式化
+        const timeFormat = (time) => {
+            var time = new Date(time);
+            var year = time.getFullYear();
+            var month = time.getMonth() + 1;
+            var day = time.getDate();
+            function add(m) {
+                return m < 10 ? "0" + m : m;
+            }
+            return year + '-' + add(month) + '-' + add(day)
+        }
+        // 添加用户 
+        const onSubmit = async () => {
+            formUser.birth = timeFormat(formUser.birth)
+            let res =
+                await proxy.$api.addUser(formUser)
+            if (res) {
+                // 让模态框消失
+                dialogVisible.value = false;
+                // 重置模态框的内容 注意需要加上prop
+                proxy.$refs.userForm.resetFields();
+                getUserData(config)
+            }
+        }
         return {
-            list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser
+            list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser, onSubmit
         }
     },
 })
@@ -181,3 +197,4 @@ export default defineComponent({
     justify-content: space-between;
 }
 </style>
+ 
