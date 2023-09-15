@@ -1,6 +1,6 @@
 <template>
     <div class="user-header">
-        <el-button type="primary" @click="dialogVisible = true">+新增</el-button>
+        <el-button type="primary" @click="handleAdd">+新增</el-button>
         <el-form :inline="true" :model="formInline">
             <el-form-item label="请输入">
                 <el-input v-model="formInline.keyword" placeholder="请输入用户名" clearable />
@@ -15,8 +15,9 @@
             <el-table-column v-for="item in tableLabel" :key="item.prop" :label="item.label" :prop="item.prop"
                 :width="item.width ? item.width : 125" />
             <el-table-column fixed="right" label="操作" min-width="180">
-                <template #default>
-                    <el-button size="small">编辑</el-button>
+                <template #default="scope">
+                    <!-- 编辑的时候用插槽 scope.row 就是这条数据 -->
+                    <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
                     <el-button link type="danger" size="small">删除</el-button>
                 </template>
             </el-table-column>
@@ -25,7 +26,7 @@
         <el-pagination small background layout="prev, pager, next" :total="config.total" :page-size="20"
             @current-change="changePage" class="pager mt-4" />
     </div>
-    <el-dialog v-model="dialogVisible" title="新增用户" width="35%" :before-close="handleClose">
+    <el-dialog v-model="dialogVisible" :title="action == 'add' ? '新增用户' : '编辑用户'" width="35%" :before-close="handleClose">
         <el-form :inline="true" :model="formUser" ref="userForm">
             <!-- 为了显示在同一行用 el-row 和 el-col -->
             <el-row>
@@ -79,7 +80,6 @@
 </template>
 
 <script>
-import { number } from 'echarts';
 import { defineComponent, getCurrentInstance, onMounted, ref, reactive } from 'vue';
 
 export default defineComponent({
@@ -186,8 +186,14 @@ export default defineComponent({
                         proxy.$refs.userForm.resetFields();
                         getUserData(config)
                     }
+                } else {
+                    ElMessage({
+                        showClose: true,
+                        message: "请输入正确的内容",
+                        type: "error",
+                    });
                 }
-            })
+            });
         };
         // 取消
         const handleCancel = () => {
@@ -195,9 +201,28 @@ export default defineComponent({
             dialogVisible.value = false;
             // 重置模态框的内容 注意需要加上prop
             proxy.$refs.userForm.resetFields();
+        };
+        // 区分编辑和新增
+        const action = ref('add')
+        // 编辑
+        const handleEdit = (row) => {
+            action.value = 'edit';
+            dialogVisible.value = true;
+            // 浅拷贝
+            // 先对性别做处理
+            row.sex == 1 ? (row.sex = '男') : (row.sex = '女')
+            // 防止出现点击编辑之后 在点击新增的时候 会把数据带到新增的模态框里面
+            proxy.$nextTick(() => {
+                Object.assign(formUser, row)
+            })
+        };
+        // 新增用户
+        const handleAdd = () => {
+            action.value = 'add';
+            dialogVisible.value = true;
         }
         return {
-            list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser, onSubmit, handleCancel
+            list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser, onSubmit, handleCancel, action, handleEdit, handleAdd
         }
     },
 })
