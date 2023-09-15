@@ -30,19 +30,24 @@
             <!-- 为了显示在同一行用 el-row 和 el-col -->
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="姓名" prop="name">
+                    <el-form-item label="姓名" prop="name" :rules="[
+                        { required: true, message: '姓名是必填项' }]">
                         <el-input v-model="formUser.name" placeholder="请输入姓名" clearable />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="年龄" prop="age">
-                        <el-input v-model="formUser.age" placeholder="请输入年龄" clearable />
+                    <el-form-item label="年龄" prop="age" :rules="[
+                        { required: true, message: '年龄是必填项' },
+                        { type: 'number', message: '年龄必须是数字' }
+                    ]">
+                        <el-input v-model.number="formUser.age" placeholder="请输入年龄" clearable />
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="性别" prop="sex">
+                    <el-form-item label="性别" prop="sex" :rules="[
+                        { required: true, message: '性别是必填项' }]">
                         <el-select v-model="formUser.sex" placeholder="请选择">
                             <el-option label="男" value="0" />
                             <el-option label="女" value="1" />
@@ -50,20 +55,22 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="出生日期" prop="birth">
+                    <el-form-item label="出生日期" prop="birth" :rules="[
+                        { required: true, message: '出生日期是必填项' }]">
                         <el-date-picker v-model="formUser.birth" type="date" label="出生日期" placeholder="请输入出生日期"
                             style="width: 100%" />
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
-                <el-form-item label="地址" prop="addr">
+                <el-form-item label="地址" prop="addr" :rules="[
+                    { required: true, message: '地址是必填项' }]">
                     <el-input v-model="formUser.addr" placeholder="请输入地址" clearable />
                 </el-form-item>
             </el-row>
             <el-row style="justify-content: end;">
                 <el-form-item>
-                    <el-button type="primary" @click="dialogVisible = false">取消</el-button>
+                    <el-button type="primary" @click="handleCancel">取消</el-button>
                     <el-button type="primary" @click="onSubmit">确定</el-button>
                 </el-form-item>
             </el-row>
@@ -72,6 +79,7 @@
 </template>
 
 <script>
+import { number } from 'echarts';
 import { defineComponent, getCurrentInstance, onMounted, ref, reactive } from 'vue';
 
 export default defineComponent({
@@ -135,7 +143,10 @@ export default defineComponent({
         const handleClose = (done) => {
             ElMessageBox.confirm('确定关闭吗?')
                 .then(() => {
-                    done()
+                    // 重置模态框的内容 注意需要加上prop
+                    proxy.$refs.userForm.resetFields();
+                    // done 的时候已经关闭了
+                    done();
                 })
                 .catch(() => {
                     // catch error
@@ -159,22 +170,34 @@ export default defineComponent({
                 return m < 10 ? "0" + m : m;
             }
             return year + '-' + add(month) + '-' + add(day)
-        }
+        };
         // 添加用户 
-        const onSubmit = async () => {
-            formUser.birth = timeFormat(formUser.birth)
-            let res =
-                await proxy.$api.addUser(formUser)
-            if (res) {
-                // 让模态框消失
-                dialogVisible.value = false;
-                // 重置模态框的内容 注意需要加上prop
-                proxy.$refs.userForm.resetFields();
-                getUserData(config)
-            }
+        const onSubmit = () => {
+            // 校验
+            proxy.$refs.userForm.validate(async (valid) => {
+                if (valid) {
+                    formUser.birth = timeFormat(formUser.birth)
+                    let res =
+                        await proxy.$api.addUser(formUser)
+                    if (res) {
+                        // 让模态框消失
+                        dialogVisible.value = false;
+                        // 重置模态框的内容 注意需要加上prop
+                        proxy.$refs.userForm.resetFields();
+                        getUserData(config)
+                    }
+                }
+            })
+        };
+        // 取消
+        const handleCancel = () => {
+            // 让模态框消失
+            dialogVisible.value = false;
+            // 重置模态框的内容 注意需要加上prop
+            proxy.$refs.userForm.resetFields();
         }
         return {
-            list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser, onSubmit
+            list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser, onSubmit, handleCancel
         }
     },
 })
