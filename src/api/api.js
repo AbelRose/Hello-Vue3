@@ -45,5 +45,13 @@ export default {
             mock: false, // 不走线上的API
             data: params
         })
+    },
+    editUser(params) {
+        return request({
+            url: '/user/edit',
+            method: 'post',
+            mock: false, // 不走线上的API
+            data: params
+        })
     }
 }

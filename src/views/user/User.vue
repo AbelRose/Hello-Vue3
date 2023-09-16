@@ -176,15 +176,32 @@ export default defineComponent({
             // 校验
             proxy.$refs.userForm.validate(async (valid) => {
                 if (valid) {
+                    // 日期处理
                     formUser.birth = timeFormat(formUser.birth)
-                    let res =
-                        await proxy.$api.addUser(formUser)
-                    if (res) {
-                        // 让模态框消失
-                        dialogVisible.value = false;
-                        // 重置模态框的内容 注意需要加上prop
-                        proxy.$refs.userForm.resetFields();
-                        getUserData(config)
+                    if (action.value == 'add') {
+                        let res =
+                            await proxy.$api.addUser(formUser)
+                        if (res) {
+                            // 让模态框消失
+                            dialogVisible.value = false;
+                            // 重置模态框的内容 注意需要加上prop
+                            proxy.$refs.userForm.resetFields();
+                            getUserData(config)
+                        }
+                    } else {
+                        // 性别处理
+                        formUser.sex == '男' ? (formUser.sex = 1) : (formUser.sex = 0)
+                        // 编辑接口
+                        let res =
+                            await proxy.$api.editUser(formUser)
+                        if (res) {
+                            // 让模态框消失
+                            dialogVisible.value = false;
+                            // 重置模态框的内容 注意需要加上prop
+                            proxy.$refs.userForm.resetFields();
+                            getUserData(config)
+                        }
+
                     }
                 } else {
                     ElMessage({

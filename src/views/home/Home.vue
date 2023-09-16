@@ -2,7 +2,7 @@
     <el-row class="home" :gutter="20" style="zoom: 0.9;">
         <!-- 左侧 -->
         <el-col :span="8" style="margin-top: 20px">
-            <el-card shadow="hover" style="height: 45%;">
+            <el-card shadow="hover" style="height: 40%;">
                 <div class="user">
                     <img src="../../assets/images/user.png" alt="">
                     <div class="user-info">
@@ -15,7 +15,7 @@
                     <p>上次登陆地点:<span>Shanghai</span></p>
                 </div>
             </el-card>
-            <el-card shadow="hover" style="margin-top: 20px; height: 52.5%;">
+            <el-card shadow="hover" style="margin-top: 20px; height: 57.5%;">
                 <el-table :data="tableData">
                     <el-table-column v-for="(val, key) in tableLabel" :key="key" :prop="key" :label="val">
                     </el-table-column>
