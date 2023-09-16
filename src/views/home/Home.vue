@@ -1,21 +1,21 @@
 <template>
-    <el-row class="home" :gutter="20">
+    <el-row class="home" :gutter="20" style="zoom: 0.9;">
         <!-- 左侧 -->
         <el-col :span="8" style="margin-top: 20px">
-            <el-card shadow="hover">
+            <el-card shadow="hover" style="height: 45%;">
                 <div class="user">
                     <img src="../../assets/images/user.png" alt="">
                     <div class="user-info">
-                        <p class="name" style="margin-bottom: 15px;">SHERLOCK</p>
-                        <p class="role">超管</p>
+                        <p class="name" style="margin-bottom: 15px;">TGE Draven</p>
+                        <p class="role">Administrator</p>
                     </div>
                 </div>
                 <div class="login-info">
-                    <p>上次登陆时间:<span>2022-07-11</span></p>
-                    <p>上次登陆地点:<span>北京</span></p>
+                    <p>上次登陆时间:<span>2011-05-28</span></p>
+                    <p>上次登陆地点:<span>Shanghai</span></p>
                 </div>
             </el-card>
-            <el-card shadow="hover" style="margin-top: 20px" height="450px">
+            <el-card shadow="hover" style="margin-top: 20px; height: 52.5%;">
                 <el-table :data="tableData">
                     <el-table-column v-for="(val, key) in tableLabel" :key="key" :prop="key" :label="val">
                     </el-table-column>
@@ -25,7 +25,8 @@
         <!-- 右侧 -->
         <el-col :span="16" style="margin-top: 20px" class="right-num">
             <div class="num">
-                <el-card :body-style="{ display: 'flex', padding: 0 }" v-for="item in countData" :key="item.name">
+                <el-card shadow="hover" :body-style="{ display: 'flex', padding: 0 }" v-for="item in countData"
+                    :key="item.name">
                     <component class="icons" :is="item.icon" :style="{ background: item.color }"></component>
                     <div class="detail">
                         <p class="num">${{ item.value }}</p>
@@ -33,14 +34,14 @@
                     </div>
                 </el-card>
             </div>
-            <el-card style="height: 280px;">
+            <el-card shadow="hover" style="height: 280px;">
                 <div ref="echart" style="height: 280px;"></div>
             </el-card>
             <div class="graph">
-                <el-card style="height: 260px;">
+                <el-card shadow="hover" style="height: 260px;">
                     <div ref="userechart" style="height: 240px;"></div>
                 </el-card>
-                <el-card style="height: 260px;">
+                <el-card shadow="hover" style="height: 260px;">
                     <div ref="videoechart" style="height: 240px;"></div>
                 </el-card>
             </div>
@@ -217,6 +218,8 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .home {
+    margin-top: -40px;
+
     .user {
         display: flex;
         align-items: center;
@@ -243,6 +246,11 @@ export default defineComponent({
                 margin-left: 60px;
             }
         }
+    }
+
+    .left-num {
+        display: flex;
+        flex-direction: column;
     }
 
     .right-num {
