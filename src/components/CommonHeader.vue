@@ -23,7 +23,7 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item>个人中心</el-dropdown-item>
-                        <el-dropdown-item>退出</el-dropdown-item>
+                        <el-dropdown-item @click="handleLoginOut">退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -33,6 +33,7 @@
 
 <script>
 import { computed, defineComponent } from 'vue-demi';
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default defineComponent({
@@ -53,12 +54,21 @@ export default defineComponent({
         const current = computed(() => {
             // currentMenu 是 store index 中的 currentMenu
             return store.state.currentMenu;
-        })
+        });
+        // 退出
+        const router = useRouter()
+        const handleLoginOut = () => {
+            store.commit("cleanMenu");
+            router.push({
+                name: 'login',
+            })
+        }
         return {
             // imgSrc
             getImgSrc,
             handleCollapse,
-            current
+            current,
+            handleLoginOut
         }
     }
 });
