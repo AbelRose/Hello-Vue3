@@ -11,7 +11,8 @@ export default createStore({
                 label: '首页',
                 icon: 'home'
             }
-        ]
+        ],
+        menu:[]
     },
     // 通过 mutations 改变 state 的值
     mutations: {
@@ -38,6 +39,15 @@ export default createStore({
         setMenu(state, val) {
             state.menu = val
             localStorage.setItem('menu', JSON.stringify(val))
+        },
+        addMenu(state) {
+            if (!localStorage.getItem('menu')) { 
+                return
+            }
+            const menu = JSON.parse(localStorage.getItem('menu')) 
+            state.menu = menu
+            // 在App.vue中用到 addMenu(因为每次都会走app.vue)
+            // vuex 不能做数据持久化 如果想做 得结合localstore来做
         }
     }
 })

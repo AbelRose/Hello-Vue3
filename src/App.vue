@@ -1,5 +1,7 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { useStore } from 'vuex';
+const store = useStore()
+store.commit('addMenu')
 </script>
 
 <template>
