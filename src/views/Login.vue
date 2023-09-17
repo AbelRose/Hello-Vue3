@@ -2,22 +2,42 @@
     <el-form :model="loginForm" class="login-container">
         <h3>系统登录</h3>
         <el-form-item>
-            <el-input type="input" placeholder="请输入账号">
-
+            <el-input type="input" placeholder="请输入账号" v-model="loginForm.username">
             </el-input>
         </el-form-item>
         <el-form-item>
-            <el-input type="password" placeholder="请输入密码">
-
+            <el-input type="password" placeholder="请输入密码" v-model="loginForm.password">
             </el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary">
-                登陆
+            <el-button type="primary" @click="login">
+                登录
             </el-button>
         </el-form-item>
     </el-form>
 </template>
+
+<script>
+import { getCurrentInstance, reactive } from 'vue';
+
+export default {
+    setup() {
+        // 需要解构
+        const { proxy } = getCurrentInstance();
+        const loginForm = reactive({
+            username: 'admin',
+            password: 'admin',
+        });
+        // 登陆
+        const login = async () => {
+            const res = await proxy.$api.getMenu(loginForm);
+        };
+        return {
+            loginForm, login
+        }
+    }
+}
+</script>
 
 <style  lang="less" scoped>
 .login-container {
@@ -39,7 +59,5 @@
     :deep(.el-form-item__content) {
         justify-content: center;
     }
-
-
 }
 </style>

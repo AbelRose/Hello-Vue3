@@ -61,5 +61,14 @@ export default {
             mock: false, // 不走线上的API
             data: params
         })
+    },
+    // 根据用户名不同返回不一样的菜单列表
+    getMenu(params) {
+        return request({
+            url: '/permission/getMenu',
+            method: 'post',
+            mock: false, // 不走线上的API
+            data: params
+        })
     }
 }
