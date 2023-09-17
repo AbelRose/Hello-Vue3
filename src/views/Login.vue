@@ -19,9 +19,15 @@
 
 <script>
 import { getCurrentInstance, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default {
     setup() {
+        // 为了调用store中的方法
+        const store = useStore();
+        // 跳转
+        const router = useRouter();
         // 需要解构
         const { proxy } = getCurrentInstance();
         const loginForm = reactive({
@@ -31,6 +37,12 @@ export default {
         // 登陆
         const login = async () => {
             const res = await proxy.$api.getMenu(loginForm);
+            // store vuex
+            store.commit('setMenu', res.menu)
+            // 路由跳转到首页
+            router.push({
+                name: 'home'
+            })
         };
         return {
             loginForm, login

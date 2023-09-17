@@ -13,7 +13,7 @@ export default {
               path: '/home',
               name: 'home',
               label: '首页',
-              icon: 's-home',
+              icon: 'house',
               url: 'home/index'
             },
             {

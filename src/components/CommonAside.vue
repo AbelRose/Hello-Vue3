@@ -72,13 +72,15 @@ export default {
 
         ];
         const noChildren = () => {
-            return list.filter((item) => !item.children)
+            return asyncList.filter((item) => !item.children)
         };
         const hasChildren = () => {
-            return list.filter((item) => item.children)
+            return asyncList.filter((item) => item.children)
         };
         const router = useRouter();
         const store = useStore();
+        // 用户权限下面的 menu list
+        const asyncList = store.state.menu
         const clickMenu = (item) => {
             router.push({
                 name: item.name,
