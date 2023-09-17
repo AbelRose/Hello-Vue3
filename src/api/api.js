@@ -53,5 +53,13 @@ export default {
             mock: false, // 不走线上的API
             data: params
         })
+    },
+    deleteUser(params) {
+        return request({
+            url: '/user/delete',
+            method: 'get',
+            mock: false, // 不走线上的API
+            data: params
+        })
     }
 }

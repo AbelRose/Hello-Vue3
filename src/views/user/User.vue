@@ -18,7 +18,7 @@
                 <template #default="scope">
                     <!-- 编辑的时候用插槽 scope.row 就是这条数据 -->
                     <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-                    <el-button link type="danger" size="small">删除</el-button>
+                    <el-button link type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -237,9 +237,27 @@ export default defineComponent({
         const handleAdd = () => {
             action.value = 'add';
             dialogVisible.value = true;
+        };
+        // 删除用户
+        const handleDelete = (row) => {
+            ElMessageBox.confirm('确定删除吗?')
+                .then(async () => {
+                    await proxy.$api.deleteUser({
+                        id: row.id
+                    })
+                    ElMessage({
+                        showClose: true,
+                        message: '删除成功',
+                        type: 'success',
+                    });
+                    getUserData(config)
+                })
+                .catch(() => {
+                    // catch error
+                })
         }
         return {
-            list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser, onSubmit, handleCancel, action, handleEdit, handleAdd
+            list, tableLabel, config, changePage, formInline, handleSearch, dialogVisible, handleClose, formUser, onSubmit, handleCancel, action, handleEdit, handleAdd, handleDelete
         }
     },
 })
