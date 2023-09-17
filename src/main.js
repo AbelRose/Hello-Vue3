@@ -23,7 +23,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 // 链式写法
+app.config.globalProperties.$api = api // 全局挂载API
+store.commit("addMenu", router) // 动态路由添加
 app.use(router).use(store)
 app.mount('#app')
-// 全局挂载API
-app.config.globalProperties.$api = api
+
+

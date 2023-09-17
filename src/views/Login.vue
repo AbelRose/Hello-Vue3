@@ -39,6 +39,7 @@ export default {
             const res = await proxy.$api.getMenu(loginForm);
             // store vuex
             store.commit('setMenu', res.menu)
+            store.commit('addMenu', router)
             // 路由跳转到首页
             router.push({
                 name: 'home'
