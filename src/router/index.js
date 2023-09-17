@@ -29,6 +29,11 @@ const routes = [
                 component: () => import('../views/Page2.vue')
             },
         ]
+    },
+    // 登陆页面
+    {
+        path: '/login',
+        component:() => import('../views/Login.vue')
     }
 ]
 
