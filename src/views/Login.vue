@@ -40,6 +40,8 @@ export default {
             // store vuex
             store.commit('setMenu', res.menu)
             store.commit('addMenu', router)
+            // 设置token
+            store.commit('setToken', res.token)
             // 路由跳转到首页
             router.push({
                 name: 'home'

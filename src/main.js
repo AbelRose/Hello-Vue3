@@ -25,7 +25,25 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 // 链式写法
 app.config.globalProperties.$api = api // 全局挂载API
 store.commit("addMenu", router) // 动态路由添加
+function checkRouter(path) {
+  let hasCheck = router.getRoutes().filter(route => route.path == path).length
+  if (hasCheck) {
+    return true;
+  } else {
+    return false;
+  }
+}
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  store.commit('getToken')
+  const token = store.state.token
+  if (!token && to.name !== 'login') {
+    next({ name: 'login' })
+  } else if (!checkRouter(to.path)) {
+    next({ name: 'home' })
+  } else {
+    next()
+  }
+})
 app.use(router).use(store)
 app.mount('#app')
-
-

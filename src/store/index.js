@@ -1,5 +1,6 @@
 // 组件之间的通信用vuex(CommonHeader 和 CommonAside的收缩) 并需要在main.js中引用
 import { createStore } from 'vuex'
+import Cookie from 'js-cookie'
 export default createStore({
     state: {
         isCollapse: true,
@@ -12,7 +13,8 @@ export default createStore({
                 icon: 'home'
             }
         ],
-        menu:[]
+        menu: [],
+        token: ''
     },
     // 通过 mutations 改变 state 的值
     mutations: {
@@ -71,6 +73,21 @@ export default createStore({
         clearMenu(state) {
             state.menu = []
             localStorage.removeItem('menu')
+        },
+        // 设置 Token
+        setToken(state, val) {
+            state.token = val
+            // token持久化
+            Cookie.set('token', val)
+        },
+        // 清除 Token
+        clearToken(state) {
+            state.token = ''
+            Cookie.remove('token')
+        },
+        // 获取 Token
+        getToken(state) {
+            state.token = state.token || Cookie.get('token')
         }
     }
 })
