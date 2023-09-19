@@ -35,6 +35,10 @@ export default createStore({
         },
         closeTab(state, val) {
             let res = state.tabsList.findIndex(item => item.name === val.name)
+            // 除了首页只剩下1个的时候 直接清空menu
+            if (res === 1) {
+                state.currentMenu = null;
+            }
             state.tabsList.splice(res, 1)
         },
         // 被 Login.vue调用 store.commit('setMenu', res.menu)
