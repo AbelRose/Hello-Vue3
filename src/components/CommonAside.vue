@@ -14,7 +14,7 @@
                 <component class="icons" :is="item.icon"></component>
                 <span>{{ item.label }}</span>
             </el-menu-item>
-            <el-sub-menu :index="item.path" v-for=" item  in  hasChildren() " :key="item.path">
+            <el-sub-menu :index="item.path || ''" v-for=" item  in  hasChildren() " :key="item.path">
                 <template #title>
                     <component class="icons" :is="item.icon"></component>
                     <span>{{ item.label }}</span>
